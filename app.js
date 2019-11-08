@@ -103,36 +103,22 @@ function rebuildList(containerEl, items) {
                 syncButtons(ev.currentTarget);
                 return;
             }
-            // if (ev.target.dataset.action === 'like') {
-            //     ev.currentTarget.parentElement.insertBefore(
-            //         ev.currentTarget,
-            //         ev.currentTarget.previousElementSibling
-            //     );
-            //     return;
-            // }
         });
+
         postEl.querySelector('[data-action=dislike]').addEventListener('click', function(ev) {
             item.likes--;
             rebuildList(containerEl, items);
             const el = ev.target.closest('[data-type=post]');
-        if (el.nextElementSibling === null) {
-            return;
-        }
-        el.parentElement.insertBefore(
-            el.nextElementSibling,
-            el,
-        );
-        syncButtons(ev.currentTarget);
-        return;
-    
-            // if (ev.target.dataset.action === 'dislike') {
-            //     ev.currentTarget.parentElement.appendAfter(
-            //         ev.currentTarget,
-            //         ev.currentTarget.nextElementSibling
-            //     );
-            //     return;
-            // }
-            // ev.currentTarget.classList.toggle('post_selected');
+                if (el.nextElementSibling === null) {
+                    return;
+                }
+                el.parentElement.insertBefore(
+                    el.nextElementSibling,
+                    el,
+                );
+                syncButtons(ev.currentTarget);
+                return;
+  
         });
         
             containerEl.appendChild(postEl);
