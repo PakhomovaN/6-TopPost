@@ -4,7 +4,7 @@ console.dir(document);
 
 const rootEl = document.querySelector('#root');
 
-const addEl = document.createElement('button');
+// const addEl = document.createElement('button');
 
 const posts = [];
 const addFormEl = document.createElement('form');
@@ -33,7 +33,7 @@ addFormEl.addEventListener('submit', function (ev) {
         value,
         type,
         likes: 0,
-    }); 
+    });
     console.log(posts);
     linkEl.value = '';
     typeEl.value = 'regular';
