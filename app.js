@@ -4,8 +4,6 @@ console.dir(document);
 
 const rootEl = document.querySelector('#root');
 
-// const addEl = document.createElement('button');
-
 const posts = [];
 const addFormEl = document.createElement('form');
 addFormEl.className = 'form-inline mb-2'; 
@@ -34,9 +32,12 @@ addFormEl.addEventListener('submit', function (ev) {
         type,
         likes: 0,
     });
-    console.log(posts);
     linkEl.value = '';
     typeEl.value = 'regular';
+
+    posts.sort((a, b) => {
+        return a.likes - b.likes
+    });
     rebuildList(postsEl, posts);
 });
 rootEl.appendChild(addFormEl);
@@ -90,40 +91,23 @@ function rebuildList(containerEl, items) {
         
         postEl.querySelector('[data-action=like]').addEventListener('click', function(ev) {
             item.likes++;
-            rebuildList(containerEl, items);
-            if (ev.target.dataset.action === like) {
-                const el = ev.target.closest('[data-type=post]');
-                if (el.previousElementSibling === null) {
-                    return;
-                }
-                el.parentElement.insertBefore(
-                    el,
-                    el.previousElementSibling,
-                );
-                syncButtons(ev.currentTarget);
-                return;
-            }
+            items.sort((a, b) => {
+                return a.likes - b.likes;
+            });
+
+            rebuildList(containerEl, items)
         });
 
         postEl.querySelector('[data-action=dislike]').addEventListener('click', function(ev) {
             item.likes--;
-            rebuildList(containerEl, items);
-            const el = ev.target.closest('[data-type=post]');
-                if (el.nextElementSibling === null) {
-                    return;
-                }
-                el.parentElement.insertBefore(
-                    el.nextElementSibling,
-                    el,
-                );
-                syncButtons(ev.currentTarget);
-                return;
+            items.sort((a, b) => {
+                return a.likes - b.likes;
+            });
+            rebuildList(containerEl, items)
   
         });
-        
-            containerEl.appendChild(postEl);
+            containerEl.insertBefore(postEl, containerEl.firstElementChild);
     }
     
 }
 
-rootEl.appendChild(addEl);
